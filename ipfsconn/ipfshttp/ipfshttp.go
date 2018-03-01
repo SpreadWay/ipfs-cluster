@@ -599,14 +599,14 @@ func (ipfs *Connector) ID() (api.IPFSID, error) {
 
 // Pin performs a pin request against the configured IPFS
 // daemon.
-func (ipfs *Connector) Pin(hash *cid.Cid) error {
+func (ipfs *Connector) Pin(hash *cid.Cid, recursive bool) error {
 	pinStatus, err := ipfs.PinLsCid(hash)
 	if err != nil {
 		return err
 	}
 	if !pinStatus.IsPinned() {
-		path := fmt.Sprintf("pin/add?arg=%s", hash)
-		_, err = ipfs.post(path)
+		path := fmt.Sprintf("pin/add?arg=%s&recursive=%t", hash, recursive)
+		_, err = ipfs.post(path, "", nil)
 		if err == nil {
 			logger.Info("IPFS Pin request succeeded: ", hash)
 		}
