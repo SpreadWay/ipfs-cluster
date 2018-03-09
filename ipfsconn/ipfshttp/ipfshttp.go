@@ -606,7 +606,7 @@ func (ipfs *Connector) Pin(hash *cid.Cid, recursive bool) error {
 	}
 	if !pinStatus.IsPinned() {
 		path := fmt.Sprintf("pin/add?arg=%s&recursive=%t", hash, recursive)
-		_, err = ipfs.post(path, "", nil)
+		_, err = ipfs.post(path)
 		if err == nil {
 			logger.Info("IPFS Pin request succeeded: ", hash)
 		}
